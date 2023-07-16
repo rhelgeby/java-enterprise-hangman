@@ -2,6 +2,8 @@ package no.helgeby.hangman.command;
 
 import java.util.StringTokenizer;
 
+import no.helgeby.hangman.command.result.CommandResult;
+
 /**
  * Handles one or more commands.
  */

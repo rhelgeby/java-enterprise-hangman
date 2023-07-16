@@ -1,11 +1,13 @@
 package no.helgeby.hangman.command;
 
-import static no.helgeby.hangman.command.CommandResult.SUCCESS;
+import static no.helgeby.hangman.command.result.SuccessfulCommandResult.SUCCESS;
 import static no.helgeby.hangman.model.Difficulty.of;
 
 import java.util.Objects;
 import java.util.StringTokenizer;
 
+import no.helgeby.hangman.command.result.CommandResult;
+import no.helgeby.hangman.command.result.FailureCommandResult;
 import no.helgeby.hangman.model.GameModel;
 
 public class DifficultyCommand implements CommandHandler {
@@ -24,7 +26,7 @@ public class DifficultyCommand implements CommandHandler {
 			model.setDifficulty(of(value));
 			return SUCCESS;
 		} catch (IllegalArgumentException e) {
-			return new CommandResult(e.getMessage(), e);
+			return new FailureCommandResult(e.getMessage(), e);
 		}
 	}
 

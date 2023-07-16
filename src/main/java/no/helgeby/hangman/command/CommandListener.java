@@ -12,6 +12,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import no.helgeby.hangman.ExpressionEvaluator;
+import no.helgeby.hangman.command.result.CommandResult;
+import no.helgeby.hangman.command.result.FailureCommandResult;
 
 /**
  * Holds a map of command handlers.
@@ -74,21 +76,21 @@ public class CommandListener implements ActionListener {
 
 		CommandHandler handler = getHandler(baseCommand);
 		if (handler == null) {
-			return new CommandResult("Command not found: " + baseCommand);
+			return new FailureCommandResult("Command not found: " + baseCommand);
 		}
 
 		// Execute the command.
 		try {
 			CommandResult result = handler.handleCommand(commandLine, baseCommand, tokenizer);
 			log.info(result.getMessage());
-			if (result.hasException()) {
-				log.warn("Exception when handling command.", result.getError());
+			if (result instanceof FailureCommandResult failureResult && failureResult.hasException()) {
+				log.warn("Exception when handling command.", failureResult.getError());
 			}
 			return result;
 		} catch (Exception e) {
 			String errorMessage = "Unhandled exception when handling command '" + baseCommand + "'.";
 			log.error(errorMessage, e);
-			return new CommandResult(errorMessage, e);
+			return new FailureCommandResult(errorMessage, e);
 		}
 	}
 

@@ -1,10 +1,12 @@
 package no.helgeby.hangman.command;
 
-import static no.helgeby.hangman.command.CommandResult.SUCCESS;
+import static no.helgeby.hangman.command.result.SuccessfulCommandResult.SUCCESS;
 
 import java.util.Objects;
 import java.util.StringTokenizer;
 
+import no.helgeby.hangman.command.result.CommandResult;
+import no.helgeby.hangman.command.result.InformationCommandResult;
 import no.helgeby.hangman.model.GameModel;
 
 public class KeyCommand implements CommandHandler {
@@ -37,6 +39,6 @@ public class KeyCommand implements CommandHandler {
 	}
 
 	private CommandResult syntax() {
-		return new CommandResult("Syntax: key <letter>");
+		return new InformationCommandResult("Syntax: key <letter>");
 	}
 }

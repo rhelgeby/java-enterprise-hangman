@@ -10,7 +10,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import no.helgeby.hangman.command.CommandListener;
-import no.helgeby.hangman.command.CommandResult;
+import no.helgeby.hangman.command.result.CommandResult;
+import no.helgeby.hangman.command.result.SuccessfulCommandResult;
 import no.helgeby.hangman.event.GameEventListener;
 import no.helgeby.hangman.model.Difficulty;
 
@@ -45,7 +46,7 @@ public class ConsolePanel extends JPanel implements GameEventListener {
 			CommandResult result = commandListener.handleCommand(commandLine);
 
 			// Only print the message when there is something of interest.
-			if (!result.isDefaultSuccessResult()) {
+			if (!(result instanceof SuccessfulCommandResult successResult && successResult.isDefault())) {
 				appendLine(result.getMessage());
 			}
 		});
