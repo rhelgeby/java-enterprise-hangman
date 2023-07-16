@@ -17,7 +17,7 @@ public class WordList {
 
 	public String getRandomWord() {
 		int index = random.nextInt(words.size());
-		return words.get(index);
+		return words.get(index).toUpperCase();
 	}
 
 	public int size() {

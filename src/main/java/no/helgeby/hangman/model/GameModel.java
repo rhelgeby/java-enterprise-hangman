@@ -114,6 +114,8 @@ public class GameModel {
 	}
 
 	public void makeGuess(char letter) {
+		letter = Character.toUpperCase(letter);
+
 		if (incorrect.contains(letter) && difficulty != Difficulty.HARD) {
 			// Letter already tried. On hard difficulty, make repeated incorrect keys count.
 			return;
