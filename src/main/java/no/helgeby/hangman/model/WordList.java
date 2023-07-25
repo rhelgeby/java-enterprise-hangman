@@ -10,10 +10,38 @@ public class WordList {
 
 	public WordList() {
 		words = new ArrayList<>();
-		addJavaWords();
+		addEasyJavaWords();
 	}
 
 	// TODO: Add support from reading from file. Use a different class for this.
+
+	public static WordList easy() {
+		WordList list = new WordList();
+		list.addEasyJavaWords();
+		return list;
+	}
+
+	public static WordList medium() {
+		WordList list = new WordList();
+		list.addEasyJavaWords();
+		list.addMediumJavaWords();
+		return list;
+	}
+
+	public static WordList hard() {
+		WordList list = new WordList();
+		list.addMediumJavaWords();
+		list.addDifficultJavaWords();
+		return list;
+	}
+
+	public static WordList all() {
+		WordList list = new WordList();
+		list.addEasyJavaWords();
+		list.addMediumJavaWords();
+		list.addDifficultJavaWords();
+		return list;
+	}
 
 	public String getRandomWord() {
 		int index = random.nextInt(words.size());
@@ -24,55 +52,65 @@ public class WordList {
 		return words.size();
 	}
 
-	private void addJavaWords() {
-		words.add("abstract");
+	// It's arguable what is difficult and easy. In this list it organized by how
+	// basic the word is.
+
+	private void addEasyJavaWords() {
 		words.add("boolean");
-		words.add("break");
 		words.add("byte");
-		words.add("case");
-		words.add("catch");
 		words.add("char");
 		words.add("class");
-		words.add("continue");
-		words.add("default");
 		words.add("do");
 		words.add("double");
 		words.add("else");
 		words.add("enum");
-		words.add("extends");
 		words.add("false");
-		words.add("final");
-		words.add("finally");
 		words.add("float");
 		words.add("for");
 		words.add("if");
-		words.add("implements");
-		words.add("import");
-		words.add("instanceof");
 		words.add("int");
-		words.add("interface");
 		words.add("long");
-		words.add("native");
 		words.add("new");
 		words.add("null");
-		words.add("package");
 		words.add("private");
-		words.add("protected");
 		words.add("public");
 		words.add("return");
 		words.add("short");
-		words.add("static");
-		words.add("super");
-		words.add("switch");
-		words.add("synchronized");
-		words.add("this");
-		words.add("throw");
-		words.add("throws");
-		words.add("transient");
 		words.add("true");
-		words.add("try");
-		words.add("void");
-		words.add("volatile");
 		words.add("while");
 	}
+
+	private void addMediumJavaWords() {
+		words.add("abstract");
+		words.add("break");
+		words.add("catch");
+		words.add("class");
+		words.add("continue");
+		words.add("default");
+		words.add("extends");
+		words.add("final");
+		words.add("implements");
+		words.add("import");
+		words.add("interface");
+		words.add("switch");
+		words.add("throw");
+		words.add("throws");
+		words.add("try");
+		words.add("void");
+	}
+
+	private void addDifficultJavaWords() {
+		words.add("finally");
+		words.add("instanceof");
+		words.add("native");
+		words.add("package");
+		words.add("protected");
+		words.add("static");
+		words.add("super");
+		words.add("synchronized");
+		words.add("this");
+		words.add("transient");
+		words.add("volatile");
+	}
+
 }

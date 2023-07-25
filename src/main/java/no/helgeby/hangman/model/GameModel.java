@@ -48,6 +48,22 @@ public class GameModel {
 	public void setDifficulty(Difficulty difficulty) {
 		Difficulty oldDifficulty = this.difficulty;
 		this.difficulty = difficulty;
+
+		switch (difficulty) {
+		case EASY:
+			wordList = WordList.easy();
+			break;
+		case MEDIUM:
+			wordList = WordList.medium();
+			break;
+		case HARD:
+			wordList = WordList.hard();
+			break;
+		case ALL:
+			wordList = WordList.all();
+			break;
+		}
+
 		notifier.notifyDifficultyCanged(oldDifficulty, difficulty);
 	}
 

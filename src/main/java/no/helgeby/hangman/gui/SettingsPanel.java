@@ -71,7 +71,7 @@ public class SettingsPanel extends JPanel {
 		public DifficultyPanel() {
 			add(new JLabel("Difficulty:"));
 
-			diff1 = new JRadioButton("All");
+			diff1 = new JRadioButton("All words");
 			diff2 = new JRadioButton("Easy");
 			diff3 = new JRadioButton("Medium");
 			diff4 = new JRadioButton("Hard");

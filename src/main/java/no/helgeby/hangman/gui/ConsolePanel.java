@@ -93,7 +93,8 @@ public class ConsolePanel extends JPanel implements GameEventListener {
 
 	@Override
 	public void difficultyCanged(Difficulty oldDifficulty, Difficulty newDifficulty) {
-		appendLine("Difficulty changed: " + newDifficulty);
+		appendLine("Difficulty changed from '" + oldDifficulty + "' to '" + newDifficulty
+				+ "'. Will use new word list on next game.");
 	}
 
 	@Override
