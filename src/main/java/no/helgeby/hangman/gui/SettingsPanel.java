@@ -48,7 +48,7 @@ public class SettingsPanel extends JPanel {
 		setDifficulty(gameModel.difficulty());
 	}
 
-	public void setDifficulty(Difficulty difficulty) {
+	private void setDifficulty(Difficulty difficulty) {
 		switch (difficulty) {
 		case ALL:
 			diff1.setSelected(true);
