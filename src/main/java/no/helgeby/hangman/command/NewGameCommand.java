@@ -20,7 +20,6 @@ public class NewGameCommand implements CommandHandler {
 	@Override
 	public CommandResult handleCommand(String commandLine, String baseCommand, StringTokenizer tokens) {
 		model.newWord();
-		model.gallowsModel().reset();
 		return SUCCESS;
 	}
 

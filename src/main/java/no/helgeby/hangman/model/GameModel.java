@@ -112,6 +112,7 @@ public class GameModel {
 
 		incorrect.clear();
 		word.clear();
+		gallowsModel.reset();
 
 		for (int i = 0; i < correctAnswer.length(); i++) {
 			word.add('_');
