@@ -8,6 +8,10 @@ import java.awt.KeyboardFocusManager;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -27,9 +31,8 @@ import no.helgeby.hangman.command.ShowSettingsCommand;
 import no.helgeby.hangman.gui.GallowsPanel;
 import no.helgeby.hangman.gui.SettingsFrame;
 import no.helgeby.hangman.gui.StatusPanel;
-import no.helgeby.hangman.model.Difficulty;
+import no.helgeby.hangman.model.Config;
 import no.helgeby.hangman.model.GameModel;
-import no.helgeby.hangman.model.WordList;
 
 public class Application extends JFrame {
 
@@ -46,20 +49,28 @@ public class Application extends JFrame {
 			log.warn("Failed to set look and feel. Using Java's default.", e);
 		}
 
-		new Application();
+		try {
+			new Application();
+		} catch (IOException e) {
+			log.error("Could not load config file.", e);
+		} catch (URISyntaxException e) {
+			log.error("Could not make URI.", e);
+		}
 	}
 
-	public Application() {
+	public Application() throws IOException, URISyntaxException {
 		log.info("Starting application.");
 
 		Settings settings = new Settings();
-		Difficulty difficulty = Difficulty.ALL;
-		settings.put("difficulty", difficulty);
 
-		WordList wordList = new WordList();
-		settings.put("wordList", difficulty);
-		GameModel gameModel = new GameModel(wordList, difficulty);
-		settings.put("gameModel", difficulty);
+		// Note: The root path is relative to application resources.
+		String fileName = "/application.properties";
+		Path configFile = Paths.get(Application.class.getResource(fileName).toURI());
+		Config config = new Config(configFile);
+		settings.put("config", config);
+
+		GameModel gameModel = new GameModel(config);
+		settings.put("gameModel", gameModel);
 
 		CommandListener commandListener = new CommandListener(settings);
 		commandListener.addHandler(new ExitCommand());

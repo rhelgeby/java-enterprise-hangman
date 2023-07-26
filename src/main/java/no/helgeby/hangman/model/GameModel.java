@@ -20,15 +20,19 @@ public class GameModel {
 	private WordList wordList;
 	private GallowsModel gallowsModel;
 	private GameEventNotifier notifier;
+	private Config config;
 
-	public GameModel(WordList wordList, Difficulty difficulty) {
-		this.wordList = Objects.requireNonNull(wordList, "wordList");
-		this.difficulty = Objects.requireNonNull(difficulty, "difficulty");
+	public GameModel(Config config) {
+		this.config = Objects.requireNonNull(config, "config");
 
 		gallowsModel = new GallowsModel();
 		word = new ArrayList<Character>();
 		incorrect = new ArrayList<Character>();
 		notifier = new GameEventNotifier();
+
+		// Note: Setting difficulty will also initialize the word list.
+		setDifficulty(config.getDifficulty());
+
 		newWord();
 	}
 
@@ -51,16 +55,16 @@ public class GameModel {
 
 		switch (difficulty) {
 		case EASY:
-			wordList = WordList.easy();
+			wordList = config.getEasyWords();
 			break;
 		case MEDIUM:
-			wordList = WordList.medium();
+			wordList = config.getMediumWords();
 			break;
 		case HARD:
-			wordList = WordList.hard();
+			wordList = config.getHardWords();
 			break;
 		case ALL:
-			wordList = WordList.all();
+			wordList = config.getAllWords();
 			break;
 		}
 
