@@ -158,6 +158,7 @@ public class GameModel {
 		if (correctGuess) {
 			notifier.notifyCorrectGuessMade(letter);
 			if (correctAnswer.equals(wordWithoutSpaces())) {
+				gallowsModel.free();
 				notifier.notifyGameWon();
 			}
 		} else {

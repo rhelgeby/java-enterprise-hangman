@@ -13,25 +13,24 @@ public class GallowsModel {
 	public static final int LAST_WOMMAN_STAGE = 11;
 
 	private int stage = 0;
-	private boolean isDead = false; // TODO: Refactor to stages. isDead should mean a certain stage is reached.
+	private boolean isFree = false;
 	private boolean isWoman = false;
 
-	// TODO: Is character free. Use a flag for a freed character?
-
 	public void nextStage() {
-		if (isDead) {
-			// Already marked dead.
+		if (isDead() || isFree) {
+			// Game finished.
 			return;
 		}
 		stage++;
-		if (isDead()) {
-			isDead = true;
-		}
+	}
+
+	public void free() {
+		isFree = true;
 	}
 
 	public boolean isDead() {
-		if (isDead) {
-			return true;
+		if (isFree) {
+			return false;
 		} else if (isWoman) {
 			return stage >= LAST_WOMMAN_STAGE;
 		} else {
@@ -54,7 +53,7 @@ public class GallowsModel {
 
 	public void reset() {
 		stage = 0;
-		isDead = false;
+		isFree = false;
 	}
 
 }
