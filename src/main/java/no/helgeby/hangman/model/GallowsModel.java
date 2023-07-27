@@ -14,7 +14,12 @@ public class GallowsModel {
 
 	private int stage = 0;
 	private boolean isFree = false;
-	private boolean isWoman = false;
+	private DrawingType currentDrawingType;
+	private DrawingType nextDrawingType;
+
+	public GallowsModel() {
+		currentDrawingType = DrawingType.MAN;
+	}
 
 	public void nextStage() {
 		if (isDead() || isFree) {
@@ -31,20 +36,19 @@ public class GallowsModel {
 	public boolean isDead() {
 		if (isFree) {
 			return false;
-		} else if (isWoman) {
+		} else if (currentDrawingType == DrawingType.WOMAN) {
 			return stage >= LAST_WOMMAN_STAGE;
 		} else {
 			return stage >= LAST_MAN_STAGE;
 		}
 	}
 
-	public boolean isWoman() {
-		return isWoman;
+	public DrawingType getCurrentDrawingType() {
+		return currentDrawingType;
 	}
 
-	public void setWoman(boolean isWoman) {
-		this.isWoman = isWoman;
-		reset();
+	public void setNextDrawingType(DrawingType drawingType) {
+		nextDrawingType = drawingType;
 	}
 
 	public int getStage() {
@@ -54,6 +58,9 @@ public class GallowsModel {
 	public void reset() {
 		stage = 0;
 		isFree = false;
+		if (nextDrawingType != null) {
+			currentDrawingType = nextDrawingType;
+		}
 	}
 
 }

@@ -15,6 +15,8 @@ import no.helgeby.hangman.gui.painter.GallowsPainter;
 import no.helgeby.hangman.gui.painter.GridPainter;
 import no.helgeby.hangman.gui.painter.ManPainter;
 import no.helgeby.hangman.gui.painter.WomanPainter;
+import no.helgeby.hangman.model.Difficulty;
+import no.helgeby.hangman.model.DrawingType;
 import no.helgeby.hangman.model.GallowsModel;
 import no.helgeby.hangman.model.GameModel;
 
@@ -68,7 +70,7 @@ public class GallowsPanel extends JPanel {
 	}
 
 	private void drawPerson(Graphics2D g) {
-		if (gallows.isWoman()) {
+		if (gallows.getCurrentDrawingType() == DrawingType.WOMAN) {
 			womanPainter.paint(g, scale, offsetX, offsetY);
 		} else {
 			manPainter.paint(g, scale, offsetX, offsetY);

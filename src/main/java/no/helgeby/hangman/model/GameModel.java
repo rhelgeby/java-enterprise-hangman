@@ -52,6 +52,8 @@ public class GameModel {
 	public void setDifficulty(Difficulty difficulty) {
 		Difficulty oldDifficulty = this.difficulty;
 		this.difficulty = difficulty;
+		
+		DrawingType drawingType = DrawingType.MAN;
 
 		switch (difficulty) {
 		case EASY:
@@ -62,12 +64,14 @@ public class GameModel {
 			break;
 		case HARD:
 			wordList = config.getHardWords();
+			drawingType = DrawingType.WOMAN;
 			break;
 		case ALL:
 			wordList = config.getAllWords();
 			break;
 		}
 
+		gallowsModel.setNextDrawingType(drawingType);
 		notifier.notifyDifficultyCanged(oldDifficulty, difficulty);
 	}
 
