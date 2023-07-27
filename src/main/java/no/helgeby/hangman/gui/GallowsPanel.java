@@ -8,8 +8,6 @@ import java.awt.image.BufferedImage;
 import java.util.Objects;
 
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-
 import no.helgeby.hangman.event.EmptyGameEventListener;
 import no.helgeby.hangman.gui.painter.GallowsPainter;
 import no.helgeby.hangman.gui.painter.GridPainter;
@@ -64,9 +62,7 @@ public class GallowsPanel extends JPanel {
 
 	private void draw() {
 		paintBuffer();
-		SwingUtilities.invokeLater(() -> {
-			repaint();
-		});
+		repaint();
 	}
 
 	private void drawPerson(Graphics2D g) {
