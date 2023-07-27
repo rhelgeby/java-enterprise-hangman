@@ -15,7 +15,6 @@ public class SettingsFrame extends JFrame {
 		Objects.requireNonNull(listener, "listener");
 
 		setTitle("Hangman settings");
-		setResizable(false);
 		setLocationByPlatform(true);
 
 		add(new SettingsPanel(listener, gameModel));
