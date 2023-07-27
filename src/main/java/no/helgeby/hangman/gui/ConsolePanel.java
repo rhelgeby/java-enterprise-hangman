@@ -1,9 +1,8 @@
 package no.helgeby.hangman.gui;
 
-import java.awt.GridBagConstraints;
+import java.awt.BorderLayout;
 import java.util.Objects;
 
-import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -29,7 +28,7 @@ public class ConsolePanel extends JPanel implements GameEventListener {
 	public ConsolePanel(CommandListener commandListener) {
 		Objects.requireNonNull(commandListener, "commandListener");
 
-		BoxLayout layout = new BoxLayout(this, BoxLayout.PAGE_AXIS);
+		BorderLayout layout = new BorderLayout();
 		setLayout(layout);
 
 		consoleText = new JTextArea(10, 80);
@@ -51,8 +50,8 @@ public class ConsolePanel extends JPanel implements GameEventListener {
 			}
 		});
 
-		add(scrollPane, GridBagConstraints.REMAINDER);
-		add(commandField);
+		add(scrollPane, BorderLayout.CENTER);
+		add(commandField, BorderLayout.SOUTH);
 	}
 
 	private void appendLine(String text) {
