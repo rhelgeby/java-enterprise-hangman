@@ -10,13 +10,9 @@ public interface Painter {
 	/**
 	 * Paints something on the specified graphics.
 	 * 
-	 * @param g       Canvas to paint on.
-	 * @param scale   The scale to paint in.
-	 * @param offsetX Number of pixels the image should be shifted to the right,
-	 *                after scaling.
-	 * @param offsetY Number of pixels the image should be shifted down, after
-	 *                scaling.
+	 * @param g                Canvas to paint on.
+	 * @param canvasProperties Scale and size information about the canvas.
 	 */
-	void paint(Graphics2D g, float scale, int offsetX, int offsetY);
+	void paint(Graphics2D g, CanvasProperties properties);
 
 }

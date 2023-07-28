@@ -113,15 +113,11 @@ public abstract class Animation implements Painter {
 	/**
 	 * Paints the current frame.
 	 * 
-	 * @param g       Canvas to paint on.
-	 * @param scale   The scale to paint in.
-	 * @param offsetX Number of pixels the image should be shifted to the right,
-	 *                after scaling.
-	 * @param offsetY Number of pixels the image should be shifted down, after
-	 *                scaling.
+	 * @param g                Canvas to paint on.
+	 * @param canvasProperties Scale and size information about the canvas.
 	 */
 	@Override
-	public void paint(Graphics2D g, float scale, int offsetX, int offsetY) {
+	public void paint(Graphics2D g, CanvasProperties properties) {
 		// Draw current frame.
 		BufferedImage frame = frames.get(currentFrame.get());
 		g.drawImage(frame, 0, 0, null);

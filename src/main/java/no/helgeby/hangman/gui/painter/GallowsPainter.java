@@ -13,7 +13,10 @@ public class GallowsPainter implements Painter {
 	private static final float GALLOW_THICKNESS = 5;
 
 	@Override
-	public void paint(Graphics2D g, float scale, int offsetX, int offsetY) {
+	public void paint(Graphics2D g, CanvasProperties properties) {
+		float scale = properties.getScale();
+		int offsetX = properties.getOffsetX();
+		int offsetY = properties.getOffsetY();
 		g.setColor(Color.BLACK);
 		g.setStroke(new BasicStroke(GALLOW_THICKNESS * scale));
 

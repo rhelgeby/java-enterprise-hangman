@@ -18,7 +18,7 @@ public class GridPainter implements Painter {
 	}
 
 	@Override
-	public void paint(Graphics2D g, float scale, int offsetX, int offsetY) {
+	public void paint(Graphics2D g, CanvasProperties properties) {
 		int gridSize = 10;
 
 		g.setStroke(new BasicStroke(1.0f));

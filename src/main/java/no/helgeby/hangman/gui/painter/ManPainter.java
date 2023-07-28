@@ -12,7 +12,11 @@ public class ManPainter extends PersonPainter {
 	}
 
 	@Override
-	public void paint(Graphics2D g, float scale, int offsetX, int offsetY) {
+	public void paint(Graphics2D g, CanvasProperties properties) {
+		float scale = properties.getScale();
+		int offsetX = properties.getOffsetX();
+		int offsetY = properties.getOffsetY();
+
 		paintUpperBody(g, scale, offsetX, offsetY);
 
 		int scaledHeadSize = (int) (headSize * scale);

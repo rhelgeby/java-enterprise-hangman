@@ -84,7 +84,7 @@ public class PainterManager {
 	private void paintBuffer() {
 		log.debug("Painting buffer.");
 		for (Painter p : stack) {
-			p.paint(g, properties.getScale(), properties.getOffsetX(), properties.getOffsetY());
+			p.paint(g, properties);
 		}
 		listener.onPaintComplete();
 	}
