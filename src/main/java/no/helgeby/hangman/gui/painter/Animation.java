@@ -24,8 +24,8 @@ import org.apache.logging.log4j.Logger;
  * made for higher frame rates. Too high rate may result in delayed or dropped
  * frames.
  * <p>
- * Its speed is limited by how busy the Spring event-dispatch thread is, and how
- * fast the CPU can read the image from a buffer to paint on a component.
+ * Its speed is limited by CPU speed and how busy the Spring event-dispatch
+ * thread is.
  * <p>
  * Video players often use the graphics card or some kind of hardware
  * acceleration to offload drawing. This implementation use only the CPU.
@@ -49,17 +49,6 @@ public abstract class Animation implements Painter {
 	private Timer timer;
 	private PainterListener listener;
 
-	/**
-	 * Whether the second buffer is ready to draw on.
-	 * <p>
-	 * Double buffering reduces the chance of an incomplete drawing being rendered.
-	 */
-	private boolean secondBufferActive;
-
-	private BufferedImage image1;
-	private Graphics2D g1;
-	private BufferedImage image2;
-	private Graphics2D g2;
 	private Animator animator;
 
 	/**
@@ -82,17 +71,12 @@ public abstract class Animation implements Painter {
 		animator = new Animator();
 		timer = new Timer((int) frameTime.toMillis(), animator);
 
-		image1 = new BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_RGB);
-		g1 = image1.createGraphics();
-		image2 = new BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_RGB);
-		g2 = image2.createGraphics();
-
 		currentFrame = new AtomicInteger();
 		frames = new ArrayList<>();
 	}
 
 	/**
-	 * Sets the listener to be notified when a frame is done.
+	 * Sets the listener to be notified when a frame is ready to be painted.
 	 * <p>
 	 * The current listener is replaced.
 	 * 
@@ -124,10 +108,6 @@ public abstract class Animation implements Painter {
 		timer.stop();
 		// TODO: Existing timer task may be running. Delay counter reset until complete?
 		resetFrameCounter();
-	}
-
-	public synchronized BufferedImage getCurrentImage() {
-		return secondBufferActive ? image1 : image2;
 	}
 
 	/**
@@ -166,12 +146,6 @@ public abstract class Animation implements Painter {
 		return g;
 	}
 
-	private synchronized Graphics2D getBuffer() {
-		Graphics2D g = secondBufferActive ? g1 : g2;
-		secondBufferActive = !secondBufferActive;
-		return g;
-	}
-
 	private void nextFrame() {
 		// TODO: Does not increment for other thread. Reseach.
 		currentFrame.incrementAndGet();
@@ -206,19 +180,14 @@ public abstract class Animation implements Painter {
 				return;
 			}
 
-			log.info("Drawing animation frame.");
+			log.info("Animation frame.");
 
-			// Note: It is not necessary to clear the buffer. It will draw the image over
-			// the old one. The frames are not transparent.
-
-			Graphics2D g = getBuffer();
-			paint(g, 0, 0, 0);
+			// Notify the listener that a frame can be painted.
+			notifyListener();
 
 			nextFrame();
 			verifyFrameNumber();
-
 			isDrawing = false;
-			notifyListener();
 		}
 
 		private boolean verifyFrameNumber() {
