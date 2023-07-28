@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import no.helgeby.hangman.gui.PainterListener;
 import no.helgeby.hangman.model.DrawingType;
 import no.helgeby.hangman.model.GallowsModel;
 

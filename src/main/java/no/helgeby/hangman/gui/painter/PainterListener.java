@@ -1,4 +1,4 @@
-package no.helgeby.hangman.gui;
+package no.helgeby.hangman.gui.painter;
 
 public interface PainterListener {
 
