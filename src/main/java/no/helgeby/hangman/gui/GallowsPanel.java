@@ -21,8 +21,6 @@ public class GallowsPanel extends JPanel {
 	private static final int OFFSET_X = -75;
 	private static final int OFFSET_Y = -75;
 
-	// TODO: Timer with frames. Support no changes for adding gaps in the animation.
-
 	private GallowsModel gallows;
 
 	private PainterManager painterManager;

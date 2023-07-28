@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import no.helgeby.hangman.model.DrawingType;
 import no.helgeby.hangman.model.GallowsModel;
 
@@ -19,7 +22,7 @@ import no.helgeby.hangman.model.GallowsModel;
  */
 public class PainterManager {
 
-	// TODO: Listen to the game model?
+	private static final Logger log = LogManager.getLogger(PainterManager.class);
 
 	private BufferedImage image;
 	private Graphics2D g;
@@ -45,6 +48,8 @@ public class PainterManager {
 	private PainterListener listener;
 	private GallowsModel gallows;
 
+	private Animation currentAnimation;
+
 	public PainterManager(Dimension size, GallowsModel gallows) {
 		Objects.requireNonNull(size, "size");
 		this.gallows = Objects.requireNonNull(gallows, "gallows");
@@ -58,15 +63,15 @@ public class PainterManager {
 		manPainter = new ManPainter(gallows);
 		womanPainter = new WomanPainter(gallows);
 		gridPainter = new GridPainter(size.width, size.height);
+
+		AnimationListener animationListener = new AnimationListener();
 	}
 
 	public void paint() {
 		reset();
 
-		// TODO: Figure out what to paint and add it to the stack.
-
 		if (gallows.isFree()) {
-			// TODO: Draw a winning person.
+			// TODO: Figure out which animation to start.
 		} else {
 			if (gallows.getCurrentDrawingType() == DrawingType.WOMAN) {
 				paintWoman();
@@ -74,8 +79,6 @@ public class PainterManager {
 				paintMan();
 			}
 		}
-
-		paintBuffer();
 	}
 
 	/**
@@ -83,6 +86,7 @@ public class PainterManager {
 	 * when done.
 	 */
 	private void paintBuffer() {
+		log.debug("Painting buffer.");
 		for (Painter p : stack) {
 			p.paint(g, scale, offsetX, offsetY);
 		}
@@ -119,6 +123,12 @@ public class PainterManager {
 
 		// The gallows is always visible.
 		stack.add(gallowsPainter);
+
+		// Stop any animations if any.
+		if (currentAnimation != null) {
+			currentAnimation.stop();
+			currentAnimation = null;
+		}
 	}
 
 	public BufferedImage getImage() {
@@ -139,6 +149,15 @@ public class PainterManager {
 
 	public void setListener(PainterListener listener) {
 		this.listener = listener;
+	}
+
+	private class AnimationListener implements PainterListener {
+		@Override
+		public void onPaintComplete() {
+			log.debug("Animation frame complete.");
+			stack.add(currentAnimation);
+			paintBuffer();
+		}
 	}
 
 }
