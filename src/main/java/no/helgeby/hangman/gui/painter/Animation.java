@@ -62,6 +62,13 @@ public abstract class Animation implements Painter {
 	private Graphics2D g2;
 	private Animator animator;
 
+	/**
+	 * Creates an empty animation. Use {@link #createFrame()} to add frames to it.
+	 * 
+	 * @param frameTime  How long each frame is displayed.
+	 * @param properties Image properties.
+	 * @param listener   Object to be notified when a frame is painted.
+	 */
 	public Animation(Duration frameTime, CanvasProperties properties, PainterListener listener) {
 		Objects.requireNonNull(frameTime, "frameTime");
 		if (frameTime.toMillis() > Integer.MAX_VALUE) {
@@ -84,10 +91,22 @@ public abstract class Animation implements Painter {
 		frames = new ArrayList<>();
 	}
 
+	/**
+	 * Sets the listener to be notified when a frame is done.
+	 * <p>
+	 * The current listener is replaced.
+	 * 
+	 * @param listener Listener to be notified, or null to remove current listener.
+	 */
 	public void setListener(PainterListener listener) {
 		this.listener = listener;
 	}
 
+	/**
+	 * Starts the animation.
+	 * <p>
+	 * The first frame is painted immediately and will trigger the listener.
+	 */
 	public void start() {
 		log.info("Starting animation.");
 
@@ -98,6 +117,9 @@ public abstract class Animation implements Painter {
 		timer.start();
 	}
 
+	/**
+	 * Stops and resets the animation to the beginning.
+	 */
 	public void stop() {
 		timer.stop();
 		// TODO: Existing timer task may be running. Delay counter reset until complete?
@@ -108,6 +130,16 @@ public abstract class Animation implements Painter {
 		return secondBufferActive ? image1 : image2;
 	}
 
+	/**
+	 * Paints the current frame.
+	 * 
+	 * @param g       Canvas to paint on.
+	 * @param scale   The scale to paint in.
+	 * @param offsetX Number of pixels the image should be shifted to the right,
+	 *                after scaling.
+	 * @param offsetY Number of pixels the image should be shifted down, after
+	 *                scaling.
+	 */
 	@Override
 	public void paint(Graphics2D g, float scale, int offsetX, int offsetY) {
 		// Draw current frame.
