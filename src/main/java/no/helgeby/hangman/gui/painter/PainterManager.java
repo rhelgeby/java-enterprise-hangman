@@ -50,9 +50,10 @@ public class PainterManager {
 
 	private Animation currentAnimation;
 
-	public PainterManager(Dimension size, GallowsModel gallows) {
-		Objects.requireNonNull(size, "size");
+	public PainterManager(CanvasProperties properties, GallowsModel gallows) {
+		properties = Objects.requireNonNull(properties, "properties");
 		this.gallows = Objects.requireNonNull(gallows, "gallows");
+		Dimension size = properties.getSize();
 
 		image = new BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_RGB);
 		g = image.createGraphics();

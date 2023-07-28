@@ -39,6 +39,9 @@ public abstract class Animation implements Painter {
 	 * the same time as another slow drawing task is running.
 	 */
 	private AtomicInteger currentFrame;
+	protected Dimension size;
+	protected CanvasProperties properties;
+
 	private boolean loop;
 	private Timer timer;
 	private PainterListener listener;
@@ -56,12 +59,14 @@ public abstract class Animation implements Painter {
 	private Graphics2D g2;
 	private Animator animator;
 
-	public Animation(Duration frameTime, Dimension size, PainterListener listener) {
+	public Animation(Duration frameTime, CanvasProperties properties, PainterListener listener) {
 		Objects.requireNonNull(frameTime, "frameTime");
 		if (frameTime.toMillis() > Integer.MAX_VALUE) {
 			throw new IllegalArgumentException("Too long delay.");
 		}
-		Objects.requireNonNull(size, "size");
+		this.properties = Objects.requireNonNull(properties, "properties");
+		size = properties.getSize();
+
 		this.listener = listener;
 
 		animator = new Animator();
