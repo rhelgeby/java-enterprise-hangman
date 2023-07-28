@@ -26,12 +26,7 @@ public class PainterManager {
 
 	private BufferedImage image;
 	private Graphics2D g;
-
-	private float scale = 1.0f;
-
-	// Offset is not scaled.
-	private int offsetX;
-	private int offsetY;
+	private CanvasProperties properties;
 
 	/**
 	 * Allows multiple painters for drawing various things on the buffer.
@@ -51,7 +46,7 @@ public class PainterManager {
 	private Animation currentAnimation;
 
 	public PainterManager(CanvasProperties properties, GallowsModel gallows) {
-		properties = Objects.requireNonNull(properties, "properties");
+		this.properties = Objects.requireNonNull(properties, "properties");
 		this.gallows = Objects.requireNonNull(gallows, "gallows");
 		Dimension size = properties.getSize();
 
@@ -89,7 +84,7 @@ public class PainterManager {
 	private void paintBuffer() {
 		log.debug("Painting buffer.");
 		for (Painter p : stack) {
-			p.paint(g, scale, offsetX, offsetY);
+			p.paint(g, properties.getScale(), properties.getOffsetX(), properties.getOffsetY());
 		}
 		listener.onPaintComplete();
 	}
@@ -134,18 +129,6 @@ public class PainterManager {
 
 	public BufferedImage getImage() {
 		return image;
-	}
-
-	public void setScale(float scale) {
-		this.scale = scale;
-	}
-
-	public void setOffsetX(int offsetX) {
-		this.offsetX = offsetX;
-	}
-
-	public void setOffsetY(int offsetY) {
-		this.offsetY = offsetY;
 	}
 
 	public void setListener(PainterListener listener) {
