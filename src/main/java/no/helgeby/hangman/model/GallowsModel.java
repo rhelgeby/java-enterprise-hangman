@@ -43,6 +43,10 @@ public class GallowsModel {
 		}
 	}
 
+	public boolean isFree() {
+		return isFree;
+	}
+
 	public DrawingType getCurrentDrawingType() {
 		return currentDrawingType;
 	}

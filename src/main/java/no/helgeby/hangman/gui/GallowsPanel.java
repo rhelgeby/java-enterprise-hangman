@@ -1,20 +1,13 @@
 package no.helgeby.hangman.gui;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 import java.util.Objects;
 
 import javax.swing.JPanel;
+
 import no.helgeby.hangman.event.EmptyGameEventListener;
-import no.helgeby.hangman.gui.painter.GallowsPainter;
-import no.helgeby.hangman.gui.painter.GridPainter;
-import no.helgeby.hangman.gui.painter.ManPainter;
-import no.helgeby.hangman.gui.painter.WomanPainter;
-import no.helgeby.hangman.model.Difficulty;
-import no.helgeby.hangman.model.DrawingType;
+import no.helgeby.hangman.gui.painter.PainterManager;
 import no.helgeby.hangman.model.GallowsModel;
 import no.helgeby.hangman.model.GameModel;
 
@@ -22,91 +15,69 @@ public class GallowsPanel extends JPanel {
 
 	private static final long serialVersionUID = 4402590040687631095L;
 
-	private float scale = 1.0f;
+	private static final float SCALE = 1.0f;
 
 	// Offset is not scaled. Adjust as necessary.
-	private int offsetX = -75;
-	private int offsetY = -75;
+	private static final int OFFSET_X = -75;
+	private static final int OFFSET_Y = -75;
 
-	private boolean drawGrid = false;
-
-	private BufferedImage image;
-	private Graphics2D buffer;
+	// TODO: Timer with frames. Support no changes for adding gaps in the animation.
 
 	private GallowsModel gallows;
-	private GallowsPainter gallowsPainter;
-	private ManPainter manPainter;
-	private WomanPainter womanPainter;
-	private GridPainter gridPainter;
+
+	private PainterManager painterManager;
 
 	public GallowsPanel(GameModel model) {
 		Objects.requireNonNull(model, "model");
 		this.gallows = model.gallowsModel();
 
-		int width = (int) (450 * scale);
-		int height = (int) (450 * scale);
-		setPreferredSize(new Dimension(width, height));
+		Dimension size = new Dimension(450, 450);
+		scale(size);
+		setPreferredSize(size);
 
-		image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-		buffer = image.createGraphics();
+		painterManager = new PainterManager(size, gallows);
+		painterManager.setScale(SCALE);
+		painterManager.setOffsetX(OFFSET_X);
+		painterManager.setOffsetY(OFFSET_Y);
 
-		gallowsPainter = new GallowsPainter();
-		manPainter = new ManPainter(gallows);
-		womanPainter = new WomanPainter(gallows);
-		gridPainter = new GridPainter(width, height);
+		// Schedule a repaint whenever a buffer is ready.
+		painterManager.setListener(() -> {
+			repaint();
+		});
+
+		// Paint the initial drawing.
+		painterManager.paint();
+		repaint();
 
 		model.addListener(new ModelListener());
-
-		draw();
 	}
 
-	private void draw() {
-		paintBuffer();
-		repaint();
-	}
-
-	private void drawPerson(Graphics2D g) {
-		if (gallows.getCurrentDrawingType() == DrawingType.WOMAN) {
-			womanPainter.paint(g, scale, offsetX, offsetY);
-		} else {
-			manPainter.paint(g, scale, offsetX, offsetY);
-		}
-	}
-
-	private void paintBuffer() {
-		buffer.setBackground(Color.WHITE);
-		buffer.clearRect(0, 0, image.getWidth(), image.getHeight());
-
-		if (drawGrid) {
-			gridPainter.paint(buffer, scale, offsetX, offsetY);
-		}
-
-		gallowsPainter.paint(buffer, scale, offsetX, offsetY);
-		drawPerson(buffer);
+	private static void scale(Dimension d) {
+		d.width = (int) (d.width * SCALE);
+		d.height = (int) (d.height * SCALE);
 	}
 
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.drawImage(image, 0, 0, null);
+		g.drawImage(painterManager.getImage(), 0, 0, null);
 	}
 
 	private class ModelListener extends EmptyGameEventListener {
 
 		@Override
 		public void gameWon() {
-			draw();
-			// TODO: Draw a winning character.
+			painterManager.paint();
 		}
 
 		@Override
 		public void guessMade(char key) {
-			draw();
+			painterManager.paint();
 		}
 
 		@Override
 		public void newGame() {
-			draw();
+			painterManager.paint();
 		}
 
 	}
