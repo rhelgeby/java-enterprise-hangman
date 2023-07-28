@@ -1,11 +1,13 @@
 package no.helgeby.hangman.gui.painter;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -41,6 +43,7 @@ public abstract class Animation implements Painter {
 	private AtomicInteger currentFrame;
 	protected Dimension size;
 	protected CanvasProperties properties;
+	private List<BufferedImage> frames;
 
 	private boolean loop;
 	private Timer timer;
@@ -78,9 +81,8 @@ public abstract class Animation implements Painter {
 		g2 = image2.createGraphics();
 
 		currentFrame = new AtomicInteger();
+		frames = new ArrayList<>();
 	}
-
-	public abstract List<BufferedImage> getFrames();
 
 	public void setListener(PainterListener listener) {
 		this.listener = listener;
@@ -109,8 +111,27 @@ public abstract class Animation implements Painter {
 	@Override
 	public void paint(Graphics2D g, float scale, int offsetX, int offsetY) {
 		// Draw current frame.
-		BufferedImage frame = getFrames().get(currentFrame.get());
+		BufferedImage frame = frames.get(currentFrame.get());
 		g.drawImage(frame, 0, 0, null);
+	}
+
+	/**
+	 * Creates and adds a frame to the animation.
+	 * <p>
+	 * It is prepared with a white background.
+	 * 
+	 * @return An object that paints on this frame.
+	 */
+	public Graphics2D createFrame() {
+		BufferedImage frame = new BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_RGB);
+		Graphics2D g = frame.createGraphics();
+
+		g.setBackground(Color.WHITE);
+		g.setColor(Color.BLACK);
+		g.clearRect(0, 0, size.width, size.height);
+
+		frames.add(frame);
+		return g;
 	}
 
 	private synchronized Graphics2D getBuffer() {
@@ -169,7 +190,7 @@ public abstract class Animation implements Painter {
 		}
 
 		private boolean verifyFrameNumber() {
-			if (currentFrame.get() >= getFrames().size()) {
+			if (currentFrame.get() >= frames.size()) {
 				resetFrameCounter();
 				if (!loop) {
 					timer.stop();
