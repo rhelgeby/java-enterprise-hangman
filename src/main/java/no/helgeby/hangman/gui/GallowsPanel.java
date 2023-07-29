@@ -40,11 +40,14 @@ public class GallowsPanel extends JPanel {
 		model.addListener(new ModelListener());
 	}
 
-
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawImage(painterManager.getImage(), 0, 0, null);
+	}
+
+	public PainterManager getPainterManager() {
+		return painterManager;
 	}
 
 	private class ModelListener extends EmptyGameEventListener {
@@ -64,5 +67,10 @@ public class GallowsPanel extends JPanel {
 			painterManager.paint();
 		}
 
+		@Override
+		public void modelChangedExternally() {
+			// TODO: Prevent double painting? Only listen to model changes?
+			painterManager.paint();
+		}
 	}
 }

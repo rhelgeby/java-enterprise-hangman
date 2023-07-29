@@ -26,4 +26,6 @@ public interface GameEventListener extends EventListener {
 
 	void newGame();
 
+	void modelChangedExternally();
+
 }

@@ -59,6 +59,10 @@ public class GallowsModel {
 		return stage;
 	}
 
+	public void setStage(int stage) {
+		this.stage = stage;
+	}
+
 	public void reset() {
 		stage = 0;
 		isFree = false;

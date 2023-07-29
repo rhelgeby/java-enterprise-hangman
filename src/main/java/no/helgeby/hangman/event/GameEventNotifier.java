@@ -17,7 +17,8 @@ public class GameEventNotifier {
 	private List<GameEventListener> listeners;
 
 	private enum EventType {
-		GAME_WON, GAME_LOST, GUESS_MADE, CORRECT_GUESS, INCORRECT_GUESS, DIFFICULTY_CHANGED, NEW_GAME
+		GAME_WON, GAME_LOST, GUESS_MADE, CORRECT_GUESS, INCORRECT_GUESS, DIFFICULTY_CHANGED, NEW_GAME,
+		MODEL_CHANGED_EXTERNALLY
 	}
 
 	public GameEventNotifier() {
@@ -57,6 +58,9 @@ public class GameEventNotifier {
 				break;
 			case NEW_GAME:
 				listener.newGame();
+				break;
+			case MODEL_CHANGED_EXTERNALLY:
+				listener.modelChangedExternally();
 				break;
 			}
 		}
@@ -111,4 +115,10 @@ public class GameEventNotifier {
 		fireEvent(EventType.NEW_GAME);
 	}
 
+	/**
+	 * Notifies that something on the model was externally changed.
+	 */
+	public void notifyModelChangedExternally() {
+		fireEvent(EventType.MODEL_CHANGED_EXTERNALLY);
+	}
 }

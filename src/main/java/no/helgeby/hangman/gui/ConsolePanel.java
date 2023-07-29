@@ -100,4 +100,10 @@ public class ConsolePanel extends JPanel implements GameEventListener {
 	public void newGame() {
 		appendLine("New game.");
 	}
+
+	@Override
+	public void modelChangedExternally() {
+		// Ignore this event?
+		appendLine("Model changed externally.");
+	}
 }

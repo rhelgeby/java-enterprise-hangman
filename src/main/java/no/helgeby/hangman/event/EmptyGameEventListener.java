@@ -36,4 +36,7 @@ public class EmptyGameEventListener implements GameEventListener {
 	public void newGame() {
 	}
 
+	@Override
+	public void modelChangedExternally() {
+	}
 }

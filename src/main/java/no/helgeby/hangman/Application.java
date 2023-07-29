@@ -27,7 +27,9 @@ import no.helgeby.hangman.command.DifficultyCommand;
 import no.helgeby.hangman.command.ExitCommand;
 import no.helgeby.hangman.command.KeyCommand;
 import no.helgeby.hangman.command.NewGameCommand;
+import no.helgeby.hangman.command.PaintCommand;
 import no.helgeby.hangman.command.ShowSettingsCommand;
+import no.helgeby.hangman.command.StageCommand;
 import no.helgeby.hangman.gui.GallowsPanel;
 import no.helgeby.hangman.gui.SettingsFrame;
 import no.helgeby.hangman.gui.StatusPanel;
@@ -84,6 +86,8 @@ public class Application extends JFrame {
 			// These commands depends on GUI elements and must be constructed on the event
 			// dispatch thread.
 			commandListener.addHandler(new ShowSettingsCommand(bundle.settingsFrame));
+			commandListener.addHandler(new PaintCommand(bundle.gallows.getPainterManager()));
+			commandListener.addHandler(new StageCommand(gameModel));
 		});
 
 		// This adds a key listener for guesses.

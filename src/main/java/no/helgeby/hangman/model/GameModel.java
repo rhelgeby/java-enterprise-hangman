@@ -45,6 +45,13 @@ public class GameModel {
 		notifier.addListener(listener);
 	}
 
+	/**
+	 * Notifies listeners that something on the model was changed externally.
+	 */
+	public void notifyExternalModelChange() {
+		notifier.notifyModelChangedExternally();
+	}
+
 	public Difficulty difficulty() {
 		return difficulty;
 	}
@@ -52,7 +59,7 @@ public class GameModel {
 	public void setDifficulty(Difficulty difficulty) {
 		Difficulty oldDifficulty = this.difficulty;
 		this.difficulty = difficulty;
-		
+
 		DrawingType drawingType = DrawingType.MAN;
 
 		switch (difficulty) {
