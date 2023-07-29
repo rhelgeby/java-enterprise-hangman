@@ -42,6 +42,11 @@ public class ConsolePanel extends JPanel implements GameEventListener {
 			String commandLine = e.getActionCommand();
 			appendLine("> " + commandLine);
 
+			if (commandLine.isBlank()) {
+				// Ignore blank commands.
+				return;
+			}
+
 			CommandResult result = commandListener.handleCommand(commandLine);
 
 			// Only print the message when there is something of interest.
