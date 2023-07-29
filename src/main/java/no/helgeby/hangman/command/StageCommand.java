@@ -48,7 +48,7 @@ public class StageCommand implements CommandHandler {
 	}
 
 	private CommandResult usage() {
-		return new InformationCommandResult("Sets the gallows stage. Syntax: stage <lastalive|dead|number from 1 to 11>");
+		return new InformationCommandResult("Sets the gallows stage. Syntax: stage <lastalive|dead|number>");
 	}
 
 	@Override
