@@ -9,17 +9,11 @@ import java.awt.Graphics2D;
  */
 public class GridPainter implements Painter {
 
-	private int width;
-	private int height;
-
-	public GridPainter(int width, int height) {
-		this.width = width;
-		this.height = height;
-	}
-
 	@Override
 	public void paint(Graphics2D g, CanvasProperties properties) {
 		int gridSize = 10;
+		int width = properties.getSize().width;
+		int height = properties.getSize().height;
 
 		g.setStroke(new BasicStroke(1.0f));
 

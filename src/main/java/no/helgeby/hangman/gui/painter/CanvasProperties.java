@@ -17,6 +17,7 @@ public class CanvasProperties {
 
 	private float scale;
 	private Dimension size;
+	private boolean grid;
 
 	// Offset is not scaled.
 	private int offsetX;
@@ -53,6 +54,14 @@ public class CanvasProperties {
 
 	public Dimension getSize() {
 		return size;
+	}
+
+	public void setGrid(boolean grid) {
+		this.grid = grid;
+	}
+
+	public boolean isGridEnabled() {
+		return grid;
 	}
 
 	public int getOffsetX() {

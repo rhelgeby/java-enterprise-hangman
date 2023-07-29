@@ -44,6 +44,7 @@ public abstract class Animation implements Painter {
 	protected Dimension size;
 	protected CanvasProperties properties;
 	private List<BufferedImage> frames;
+	private GridPainter gridPainter;
 
 	private boolean loop;
 	private Timer timer;
@@ -65,6 +66,7 @@ public abstract class Animation implements Painter {
 		}
 		this.properties = Objects.requireNonNull(properties, "properties");
 		size = properties.getSize();
+		gridPainter = new GridPainter();
 
 		this.listener = listener;
 
@@ -121,6 +123,11 @@ public abstract class Animation implements Painter {
 		// Draw current frame.
 		BufferedImage frame = frames.get(currentFrame.get());
 		g.drawImage(frame, 0, 0, null);
+
+		// The grid is on the top layer because frames are not transparent.
+		if (properties.isGridEnabled()) {
+			gridPainter.paint(g, properties);
+		}
 	}
 
 	/**

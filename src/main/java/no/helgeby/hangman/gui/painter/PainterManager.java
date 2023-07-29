@@ -33,8 +33,6 @@ public class PainterManager {
 	 */
 	private List<Painter> stack;
 
-	private boolean drawGrid = false;
-
 	private GallowsPainter gallowsPainter;
 	private ManPainter manPainter;
 	private WomanPainter womanPainter;
@@ -59,7 +57,7 @@ public class PainterManager {
 		gallowsPainter = new GallowsPainter();
 		manPainter = new ManPainter(gallows);
 		womanPainter = new WomanPainter(gallows);
-		gridPainter = new GridPainter(size.width, size.height);
+		gridPainter = new GridPainter();
 
 		AnimationListener animationListener = new AnimationListener();
 		winningManAnimation = new WinningManAnimation(properties, animationListener);
@@ -115,6 +113,10 @@ public class PainterManager {
 		winningManAnimation.start();
 	}
 
+	public void setDrawGrid(boolean drawGrid) {
+		properties.setGrid(drawGrid);
+	}
+
 	public void reset() {
 		stack.clear();
 
@@ -122,7 +124,7 @@ public class PainterManager {
 		g.clearRect(0, 0, image.getWidth(), image.getHeight());
 
 		// Make sure the grid is always painted if enabled.
-		if (drawGrid) {
+		if (properties.isGridEnabled()) {
 			stack.add(gridPainter);
 		}
 
