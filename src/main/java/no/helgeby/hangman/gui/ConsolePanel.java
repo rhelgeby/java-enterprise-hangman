@@ -31,7 +31,7 @@ public class ConsolePanel extends JPanel implements GameEventListener {
 		BorderLayout layout = new BorderLayout();
 		setLayout(layout);
 
-		consoleText = new JTextArea(10, 80);
+		consoleText = new JTextArea(20, 80);
 		consoleText.setEditable(false);
 		JScrollPane scrollPane = new JScrollPane(consoleText);
 
