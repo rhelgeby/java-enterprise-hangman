@@ -41,7 +41,6 @@ public abstract class Animation implements Painter {
 	 * the same time as another slow drawing task is running.
 	 */
 	private AtomicInteger currentFrame;
-	protected Dimension size;
 	protected CanvasProperties properties;
 	private List<BufferedImage> frames;
 	private GridPainter gridPainter;
@@ -65,7 +64,6 @@ public abstract class Animation implements Painter {
 			throw new IllegalArgumentException("Too long delay.");
 		}
 		this.properties = Objects.requireNonNull(properties, "properties");
-		size = properties.getSize();
 		gridPainter = new GridPainter();
 
 		this.listener = listener;
@@ -138,6 +136,7 @@ public abstract class Animation implements Painter {
 	 * @return An object that paints on this frame.
 	 */
 	public Graphics2D createFrame() {
+		Dimension size = properties.getSize();
 		BufferedImage frame = new BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_RGB);
 		Graphics2D g = frame.createGraphics();
 
