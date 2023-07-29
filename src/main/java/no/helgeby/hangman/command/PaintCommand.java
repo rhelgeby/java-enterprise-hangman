@@ -29,6 +29,9 @@ public class PaintCommand implements CommandHandler {
 
 		String imageName = tokens.nextToken().toLowerCase();
 		switch (imageName) {
+		case "gallows":
+			manager.paintGallows();
+			return SUCCESS;
 		case "man":
 			manager.paintMan();
 			return SUCCESS;
@@ -41,7 +44,7 @@ public class PaintCommand implements CommandHandler {
 	}
 
 	private CommandResult usage() {
-		return new InformationCommandResult("Paint something. Syntax: paint <man|woman>");
+		return new InformationCommandResult("Paint something. Syntax: paint <gallows|man|woman>");
 	}
 
 	@Override
