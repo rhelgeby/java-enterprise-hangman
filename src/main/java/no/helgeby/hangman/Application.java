@@ -28,6 +28,7 @@ import no.helgeby.hangman.command.ExitCommand;
 import no.helgeby.hangman.command.KeyCommand;
 import no.helgeby.hangman.command.NewGameCommand;
 import no.helgeby.hangman.command.PaintCommand;
+import no.helgeby.hangman.command.PlayCommand;
 import no.helgeby.hangman.command.ShowSettingsCommand;
 import no.helgeby.hangman.command.StageCommand;
 import no.helgeby.hangman.gui.GallowsPanel;
@@ -87,6 +88,7 @@ public class Application extends JFrame {
 			// dispatch thread.
 			commandListener.addHandler(new ShowSettingsCommand(bundle.settingsFrame));
 			commandListener.addHandler(new PaintCommand(bundle.gallows.getPainterManager()));
+			commandListener.addHandler(new PlayCommand(bundle.gallows.getPainterManager()));
 			commandListener.addHandler(new StageCommand(gameModel));
 		});
 

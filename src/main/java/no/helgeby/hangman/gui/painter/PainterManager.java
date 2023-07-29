@@ -44,6 +44,7 @@ public class PainterManager {
 	private GallowsModel gallows;
 
 	private Animation currentAnimation;
+	private WinningManAnimation winningManAnimation;
 
 	public PainterManager(CanvasProperties properties, GallowsModel gallows) {
 		this.properties = Objects.requireNonNull(properties, "properties");
@@ -61,6 +62,7 @@ public class PainterManager {
 		gridPainter = new GridPainter(size.width, size.height);
 
 		AnimationListener animationListener = new AnimationListener();
+		winningManAnimation = new WinningManAnimation(properties, animationListener);
 	}
 
 	public void paint() {
@@ -68,6 +70,7 @@ public class PainterManager {
 
 		if (gallows.isFree()) {
 			// TODO: Figure out which animation to start.
+			startWinningManAnimation();
 		} else {
 			if (gallows.getCurrentDrawingType() == DrawingType.WOMAN) {
 				paintWoman();
@@ -104,6 +107,12 @@ public class PainterManager {
 		reset();
 		stack.add(womanPainter);
 		paintBuffer();
+	}
+
+	public void startWinningManAnimation() {
+		reset();
+		currentAnimation = winningManAnimation;
+		winningManAnimation.start();
 	}
 
 	public void reset() {
