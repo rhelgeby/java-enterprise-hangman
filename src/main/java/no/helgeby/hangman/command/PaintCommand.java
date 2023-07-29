@@ -31,17 +31,17 @@ public class PaintCommand implements CommandHandler {
 		switch (imageName) {
 		case "man":
 			manager.paintMan();
-			break;
+			return SUCCESS;
 		case "woman":
 			manager.paintWoman();
-			break;
+			return SUCCESS;
 		}
 
-		return SUCCESS;
+		return usage();
 	}
 
 	private CommandResult usage() {
-		return new InformationCommandResult("Paint something. Syntax: paint <image name>");
+		return new InformationCommandResult("Paint something. Syntax: paint <man|woman>");
 	}
 
 	@Override
