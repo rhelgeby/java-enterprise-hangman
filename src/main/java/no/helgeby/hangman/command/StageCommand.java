@@ -7,6 +7,7 @@ import java.util.StringTokenizer;
 
 import no.helgeby.hangman.command.result.CommandResult;
 import no.helgeby.hangman.command.result.InformationCommandResult;
+import no.helgeby.hangman.model.GallowsModel;
 import no.helgeby.hangman.model.GameModel;
 
 public class StageCommand implements CommandHandler {
@@ -14,9 +15,11 @@ public class StageCommand implements CommandHandler {
 	public static final String NAME = "stage";
 
 	private GameModel model;
+	private GallowsModel gallows;
 
 	public StageCommand(GameModel model) {
 		this.model = Objects.requireNonNull(model, "model");
+		gallows = model.gallowsModel();
 	}
 
 	@Override
@@ -25,7 +28,19 @@ public class StageCommand implements CommandHandler {
 			return usage();
 		}
 
-		int stage = Integer.parseInt(tokens.nextToken());
+		String stageString = tokens.nextToken().toLowerCase();
+		int stage;
+		switch (stageString) {
+		case "lastalive":
+			stage = gallows.lastAliveStage();
+			break;
+		case "dead":
+			stage = gallows.deadStage();
+			break;
+		default:
+			stage = Integer.parseInt(stageString);
+		}
+
 		model.gallowsModel().setStage(stage);
 		model.notifyExternalModelChange();
 

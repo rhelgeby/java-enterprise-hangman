@@ -36,11 +36,21 @@ public class GallowsModel {
 	public boolean isDead() {
 		if (isFree) {
 			return false;
-		} else if (currentDrawingType == DrawingType.WOMAN) {
-			return stage >= LAST_WOMMAN_STAGE;
-		} else {
-			return stage >= LAST_MAN_STAGE;
 		}
+		return stage >= deadStage();
+	}
+
+	public int deadStage() {
+		return switch (currentDrawingType) {
+		case MAN:
+			yield LAST_MAN_STAGE;
+		case WOMAN:
+			yield LAST_WOMMAN_STAGE;
+		};
+	}
+
+	public int lastAliveStage() {
+		return deadStage() - 1;
 	}
 
 	public boolean isFree() {
