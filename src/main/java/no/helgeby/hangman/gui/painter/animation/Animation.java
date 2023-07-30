@@ -1,7 +1,5 @@
 package no.helgeby.hangman.gui.painter.animation;
 
-import java.awt.Color;
-
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
@@ -35,7 +33,7 @@ import no.helgeby.hangman.gui.painter.PainterListener;
  * Video players often use the graphics card or some kind of hardware
  * acceleration to offload drawing. This implementation use only the CPU.
  */
-public abstract class Animation implements Painter {
+public abstract class Animation extends AbstractPainter {
 
 	private static final Logger log = LogManager.getLogger(Animation.class);
 
@@ -64,6 +62,7 @@ public abstract class Animation implements Painter {
 	 * @param listener   Object to be notified when a frame is painted.
 	 */
 	public Animation(Duration frameTime, CanvasProperties properties, PainterListener listener) {
+		super(properties);
 		Objects.requireNonNull(frameTime, "frameTime");
 		if (frameTime.toMillis() > Integer.MAX_VALUE) {
 			throw new IllegalArgumentException("Too long delay.");
@@ -145,11 +144,10 @@ public abstract class Animation implements Painter {
 		BufferedImage frame = new BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_RGB);
 		Graphics2D g = frame.createGraphics();
 
-		g.setBackground(Color.WHITE);
-		g.setColor(Color.BLACK);
+		prepareDrawing(g);
 		g.clearRect(0, 0, size.width, size.height);
-
 		frames.add(frame);
+
 		return g;
 	}
 
