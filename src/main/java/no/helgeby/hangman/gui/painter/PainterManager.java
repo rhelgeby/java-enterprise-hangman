@@ -12,7 +12,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import no.helgeby.hangman.gui.painter.animation.Animation;
-import no.helgeby.hangman.gui.painter.animation.WinningManAnimation;
 import no.helgeby.hangman.model.DrawingType;
 import no.helgeby.hangman.model.GallowsModel;
 
@@ -30,21 +29,16 @@ public class PainterManager {
 	private Graphics2D g;
 	private CanvasProperties properties;
 
+	private GallowsModel gallows;
+
 	/**
 	 * Allows multiple painters for drawing various things on the buffer.
 	 */
 	private List<Painter> stack;
 
-	private GallowsPainter gallowsPainter;
-	private ManPainter manPainter;
-	private WomanPainter womanPainter;
-	private GridPainter gridPainter;
-
+	public PainterBundle painters;
 	private PainterListener listener;
-	private GallowsModel gallows;
-
 	private Animation currentAnimation;
-	private WinningManAnimation winningManAnimation;
 
 	public PainterManager(CanvasProperties properties, GallowsModel gallows) {
 		this.properties = Objects.requireNonNull(properties, "properties");
@@ -56,13 +50,8 @@ public class PainterManager {
 
 		stack = new ArrayList<>();
 
-		gallowsPainter = new GallowsPainter(properties);
-		manPainter = new ManPainter(gallows, properties);
-		womanPainter = new WomanPainter(gallows, properties);
-		gridPainter = new GridPainter(properties);
-
 		AnimationListener animationListener = new AnimationListener();
-		winningManAnimation = new WinningManAnimation(properties, animationListener);
+		painters = new PainterBundle(gallows, properties, animationListener);
 	}
 
 	public void paint() {
@@ -99,20 +88,26 @@ public class PainterManager {
 
 	public void paintMan() {
 		reset();
-		stack.add(manPainter);
+		stack.add(painters.manPainter);
 		paintBuffer();
 	}
 
 	public void paintWoman() {
 		reset();
-		stack.add(womanPainter);
+		stack.add(painters.womanPainter);
+		paintBuffer();
+	}
+
+	public void paint(Painter painter) {
+		reset();
+		stack.add(painter);
 		paintBuffer();
 	}
 
 	public void startWinningManAnimation() {
 		reset();
-		currentAnimation = winningManAnimation;
-		winningManAnimation.start();
+		currentAnimation = painters.winningManAnimation;
+		painters.winningManAnimation.start();
 	}
 
 	public void setDrawGrid(boolean drawGrid) {
@@ -127,11 +122,11 @@ public class PainterManager {
 
 		// Make sure the grid is always painted if enabled.
 		if (properties.isGridEnabled()) {
-			stack.add(gridPainter);
+			stack.add(painters.gridPainter);
 		}
 
 		// The gallows is always visible.
-		stack.add(gallowsPainter);
+		stack.add(painters.gallowsPainter);
 
 		// Stop any animations if any.
 		if (currentAnimation != null) {
