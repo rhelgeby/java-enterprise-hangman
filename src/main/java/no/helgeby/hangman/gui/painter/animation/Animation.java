@@ -1,6 +1,7 @@
-package no.helgeby.hangman.gui.painter;
+package no.helgeby.hangman.gui.painter.animation;
 
 import java.awt.Color;
+
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
@@ -16,6 +17,10 @@ import javax.swing.Timer;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import no.helgeby.hangman.gui.painter.CanvasProperties;
+import no.helgeby.hangman.gui.painter.GridPainter;
+import no.helgeby.hangman.gui.painter.PainterListener;
 
 /**
  * Paints a series of buffered images in rapid sequence.

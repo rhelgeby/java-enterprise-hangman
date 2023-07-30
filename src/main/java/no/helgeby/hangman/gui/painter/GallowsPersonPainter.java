@@ -9,9 +9,9 @@ import java.util.Objects;
 import no.helgeby.hangman.model.GallowsModel;
 
 /**
- * Draws the upper body of a person.
+ * Draws the upper body of a person according to the gallows state.
  */
-public abstract class PersonPainter implements Painter {
+public abstract class GallowsPersonPainter implements Painter {
 
 	public static final int DEFAULT_HEAD_SIZE = 50;
 	public static final int DEFAULT_DROP_LENGTH = 50;
@@ -34,7 +34,7 @@ public abstract class PersonPainter implements Painter {
 
 	protected GallowsModel gallows;
 
-	public PersonPainter(GallowsModel gallows) {
+	public GallowsPersonPainter(GallowsModel gallows) {
 		this.gallows = Objects.requireNonNull(gallows, "gallows");
 	}
 

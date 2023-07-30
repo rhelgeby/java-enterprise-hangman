@@ -1,7 +1,11 @@
-package no.helgeby.hangman.gui.painter;
+package no.helgeby.hangman.gui.painter.animation;
 
 import java.awt.Graphics2D;
 import java.time.Duration;
+
+import no.helgeby.hangman.gui.painter.CanvasProperties;
+import no.helgeby.hangman.gui.painter.GallowsPainter;
+import no.helgeby.hangman.gui.painter.PainterListener;
 
 public class WinningManAnimation extends Animation {
 

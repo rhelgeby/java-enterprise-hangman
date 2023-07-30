@@ -5,7 +5,10 @@ import java.awt.geom.Line2D;
 
 import no.helgeby.hangman.model.GallowsModel;
 
-public class ManPainter extends PersonPainter {
+/**
+ * Draws a man according to the gallows state.
+ */
+public class ManPainter extends GallowsPersonPainter {
 
 	public ManPainter(GallowsModel gallows) {
 		super(gallows);

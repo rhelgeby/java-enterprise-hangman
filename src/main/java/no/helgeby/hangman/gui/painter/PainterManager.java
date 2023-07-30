@@ -11,6 +11,8 @@ import java.util.Objects;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import no.helgeby.hangman.gui.painter.animation.Animation;
+import no.helgeby.hangman.gui.painter.animation.WinningManAnimation;
 import no.helgeby.hangman.model.DrawingType;
 import no.helgeby.hangman.model.GallowsModel;
 
