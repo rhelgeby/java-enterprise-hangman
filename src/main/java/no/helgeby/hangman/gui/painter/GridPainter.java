@@ -26,8 +26,11 @@ public class GridPainter extends Painter {
 				if (x % 100 == 0 && y % 100 == 0) {
 					g.setColor(Color.RED);
 					g.fillRect(x, y, 3, 3);
+				} else if (x % 50 == 0 && y % 50 == 0) {
+					g.setColor(Color.GRAY);
+					g.fillRect(x, y, 3, 3);
 				} else {
-					g.setColor(Color.BLUE);
+					g.setColor(Color.GRAY);
 					g.drawRect(x, y, 1, 1);
 				}
 			}
