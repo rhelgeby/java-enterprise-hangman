@@ -7,13 +7,17 @@ import java.awt.Graphics2D;
 /**
  * Paints a dotted grid.
  */
-public class GridPainter implements Painter {
+public class GridPainter extends Painter {
+
+	public GridPainter(CanvasProperties properties) {
+		super(properties);
+	}
 
 	@Override
-	public void paint(Graphics2D g, CanvasProperties properties) {
+	public void paint(Graphics2D g) {
 		int gridSize = 10;
-		int width = properties.getSize().width;
-		int height = properties.getSize().height;
+		int width = p.getSize().width;
+		int height = p.getSize().height;
 
 		g.setStroke(new BasicStroke(1.0f));
 

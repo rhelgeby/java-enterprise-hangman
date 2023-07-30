@@ -10,28 +10,19 @@ import no.helgeby.hangman.model.GallowsModel;
  */
 public class ManPainter extends GallowsPersonPainter {
 
-	public ManPainter(GallowsModel gallows) {
-		super(gallows);
+	public ManPainter(GallowsModel gallows, CanvasProperties properties) {
+		super(gallows, properties);
 	}
 
 	@Override
-	public void paint(Graphics2D g, CanvasProperties properties) {
-		float scale = properties.getScale();
-		int offsetX = properties.getOffsetX();
-		int offsetY = properties.getOffsetY();
-
-		paintUpperBody(g, scale, offsetX, offsetY);
+	public void paint(Graphics2D g) {
+		paintUpperBody(g);
 
 		int scaledHeadSize = (int) (headSize * scale);
 		int bodyMid = scaledHeadSize / 2;
 		int scaledDropLength = gallows.isDead() ? (int) (dropLength * scale) : 0;
 
-		float x1;
-		float y1;
-		float x2;
-		float y2;
-
-		int stage = gallows.getStage();
+		stage = gallows.getStage();
 
 		if (stage >= 6) {
 			// Body.

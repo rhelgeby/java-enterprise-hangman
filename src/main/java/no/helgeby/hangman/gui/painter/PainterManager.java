@@ -56,10 +56,10 @@ public class PainterManager {
 
 		stack = new ArrayList<>();
 
-		gallowsPainter = new GallowsPainter();
-		manPainter = new ManPainter(gallows);
-		womanPainter = new WomanPainter(gallows);
-		gridPainter = new GridPainter();
+		gallowsPainter = new GallowsPainter(properties);
+		manPainter = new ManPainter(gallows, properties);
+		womanPainter = new WomanPainter(gallows, properties);
+		gridPainter = new GridPainter(properties);
 
 		AnimationListener animationListener = new AnimationListener();
 		winningManAnimation = new WinningManAnimation(properties, animationListener);
@@ -87,7 +87,7 @@ public class PainterManager {
 	private void paintBuffer() {
 		log.debug("Painting buffer.");
 		for (Painter p : stack) {
-			p.paint(g, properties);
+			p.paint(g);
 		}
 		listener.onPaintComplete();
 	}

@@ -1,7 +1,5 @@
 package no.helgeby.hangman.gui.painter;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
 import java.util.Objects;
@@ -11,51 +9,32 @@ import no.helgeby.hangman.model.GallowsModel;
 /**
  * Draws the upper body of a person according to the gallows state.
  */
-public abstract class GallowsPersonPainter implements Painter {
+public abstract class GallowsPersonPainter extends Painter {
 
-	public static final int DEFAULT_HEAD_SIZE = 50;
 	public static final int DEFAULT_DROP_LENGTH = 50;
-	public static final float DEFAULT_DRAWING_THICKNESS = 2;
 
 	/**
 	 * How long the rope is when dropping dead, in pixels before scaling.
 	 */
 	protected int dropLength = DEFAULT_DROP_LENGTH;
 
-	/**
-	 * The diameter of the head, in pixels before scaling.
-	 */
-	protected int headSize = DEFAULT_HEAD_SIZE;
-
-	/**
-	 * The width of the lines drawn, in pixels.
-	 */
-	protected float drawingThickness = DEFAULT_DRAWING_THICKNESS;
-
 	protected GallowsModel gallows;
 
-	public GallowsPersonPainter(GallowsModel gallows) {
+	public GallowsPersonPainter(GallowsModel gallows, CanvasProperties properties) {
+		super(properties);
 		this.gallows = Objects.requireNonNull(gallows, "gallows");
 	}
 
 	/**
 	 * Draws the upper body of a person.
 	 */
-	public void paintUpperBody(Graphics2D g, float scale, int offsetX, int offsetY) {
-		g.setColor(Color.BLACK);
-		g.setStroke(new BasicStroke(drawingThickness * scale));
+	public void paintUpperBody(Graphics2D g) {
+		prepareDrawing(g);
 
 		int stage = gallows.getStage();
 		boolean isDead = gallows.isDead();
 
-		int headSize = (int) (50 * scale);
-		int headMid = headSize / 2;
 		int shiftY = isDead ? (int) (dropLength * scale) : 0;
-
-		float x1;
-		float y1;
-		float x2;
-		float y2;
 
 		if (stage >= 1) {
 			// Rope.

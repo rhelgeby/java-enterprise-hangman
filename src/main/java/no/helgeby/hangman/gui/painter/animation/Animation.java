@@ -18,6 +18,7 @@ import org.apache.logging.log4j.Logger;
 
 import no.helgeby.hangman.gui.painter.CanvasProperties;
 import no.helgeby.hangman.gui.painter.GridPainter;
+import no.helgeby.hangman.gui.painter.Painter;
 import no.helgeby.hangman.gui.painter.PainterListener;
 
 /**
@@ -33,7 +34,7 @@ import no.helgeby.hangman.gui.painter.PainterListener;
  * Video players often use the graphics card or some kind of hardware
  * acceleration to offload drawing. This implementation use only the CPU.
  */
-public abstract class Animation extends AbstractPainter {
+public abstract class Animation extends Painter {
 
 	private static final Logger log = LogManager.getLogger(Animation.class);
 
@@ -44,7 +45,6 @@ public abstract class Animation extends AbstractPainter {
 	 * the same time as another slow drawing task is running.
 	 */
 	private AtomicInteger currentFrame;
-	protected CanvasProperties properties;
 	private List<BufferedImage> frames;
 	private GridPainter gridPainter;
 
@@ -67,8 +67,7 @@ public abstract class Animation extends AbstractPainter {
 		if (frameTime.toMillis() > Integer.MAX_VALUE) {
 			throw new IllegalArgumentException("Too long delay.");
 		}
-		this.properties = Objects.requireNonNull(properties, "properties");
-		gridPainter = new GridPainter();
+		gridPainter = new GridPainter(p);
 
 		this.listener = listener;
 
@@ -121,14 +120,14 @@ public abstract class Animation extends AbstractPainter {
 	 * @param canvasProperties Scale and size information about the canvas.
 	 */
 	@Override
-	public void paint(Graphics2D g, CanvasProperties properties) {
+	public void paint(Graphics2D g) {
 		// Draw current frame.
 		BufferedImage frame = frames.get(currentFrame.get());
 		g.drawImage(frame, 0, 0, null);
 
 		// The grid is on the top layer because frames are not transparent.
-		if (properties.isGridEnabled()) {
-			gridPainter.paint(g, properties);
+		if (p.isGridEnabled()) {
+			gridPainter.paint(g);
 		}
 	}
 
@@ -140,7 +139,7 @@ public abstract class Animation extends AbstractPainter {
 	 * @return An object that paints on this frame.
 	 */
 	public Graphics2D createFrame() {
-		Dimension size = properties.getSize();
+		Dimension size = p.getSize();
 		BufferedImage frame = new BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_RGB);
 		Graphics2D g = frame.createGraphics();
 

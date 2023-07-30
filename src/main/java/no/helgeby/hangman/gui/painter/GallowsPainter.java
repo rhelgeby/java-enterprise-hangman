@@ -1,29 +1,24 @@
 package no.helgeby.hangman.gui.painter;
 
 import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
 
 /**
  * Paints the empty gallows without rope.
  */
-public class GallowsPainter implements Painter {
+public class GallowsPainter extends Painter {
 
-	private static final float GALLOW_THICKNESS = 5;
+	private static final float GALLOW_THICKNESS = THICK_LINE;
+
+	public GallowsPainter(CanvasProperties properties) {
+		super(properties);
+	}
 
 	@Override
-	public void paint(Graphics2D g, CanvasProperties properties) {
-		float scale = properties.getScale();
-		int offsetX = properties.getOffsetX();
-		int offsetY = properties.getOffsetY();
-		g.setColor(Color.BLACK);
+	public void paint(Graphics2D g) {
+		prepareDrawing(g);
 		g.setStroke(new BasicStroke(GALLOW_THICKNESS * scale));
-
-		float x1;
-		float y1;
-		float x2;
-		float y2;
 
 		x1 = 100 * scale + offsetX;
 		y1 = 500 * scale + offsetY;
