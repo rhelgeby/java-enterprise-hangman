@@ -107,7 +107,7 @@ public class PainterManager {
 	public void startWinningManAnimation() {
 		reset();
 		currentAnimation = painters.winningManAnimation;
-		painters.winningManAnimation.start();
+		currentAnimation.start();
 	}
 
 	public void setDrawGrid(boolean drawGrid) {

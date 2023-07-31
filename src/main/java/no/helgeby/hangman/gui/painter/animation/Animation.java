@@ -97,6 +97,8 @@ public abstract class Animation extends Painter {
 	public void start() {
 		log.info("Starting animation.");
 
+		stage = 0;
+
 		// Paint the first frame to the buffer.
 		animator.actionPerformed(null);
 

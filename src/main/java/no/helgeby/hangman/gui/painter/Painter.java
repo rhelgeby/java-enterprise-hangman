@@ -20,7 +20,7 @@ public abstract class Painter {
 
 	// A cache of properties. Makes it convenient for the painter.
 	protected CanvasProperties p;
-	protected int stage;
+	public int stage;
 	protected float scale;
 	protected int offsetX;
 	protected int offsetY;

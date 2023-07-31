@@ -8,18 +8,20 @@ import no.helgeby.hangman.model.GallowsModel;
  */
 public class PainterBundle {
 
+	public GridPainter gridPainter;
 	public GallowsPainter gallowsPainter;
 	public ManPainter manPainter;
 	public WomanPainter womanPainter;
-	public GridPainter gridPainter;
+	public ManReleasedPainter manReleasedPainter;
 
 	public WinningManAnimation winningManAnimation;
 
 	public PainterBundle(GallowsModel gallows, CanvasProperties properties, PainterListener listener) {
+		gridPainter = new GridPainter(properties);
 		gallowsPainter = new GallowsPainter(properties);
 		manPainter = new ManPainter(gallows, properties);
 		womanPainter = new WomanPainter(gallows, properties);
-		gridPainter = new GridPainter(properties);
+		manReleasedPainter = new ManReleasedPainter(properties);
 
 		winningManAnimation = new WinningManAnimation(properties, listener);
 	}

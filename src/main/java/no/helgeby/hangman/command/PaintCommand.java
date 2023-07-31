@@ -7,6 +7,7 @@ import java.util.StringTokenizer;
 
 import no.helgeby.hangman.command.result.CommandResult;
 import no.helgeby.hangman.command.result.InformationCommandResult;
+import no.helgeby.hangman.gui.painter.Painter;
 import no.helgeby.hangman.gui.painter.PainterManager;
 
 /**
@@ -28,6 +29,12 @@ public class PaintCommand implements CommandHandler {
 		}
 
 		String imageName = tokens.nextToken().toLowerCase();
+
+		int stage = 0;
+		if (tokens.hasMoreTokens()) {
+			stage = Integer.parseInt(tokens.nextToken());
+		}
+
 		switch (imageName) {
 		case "gallows":
 			manager.paintGallows();
@@ -38,13 +45,21 @@ public class PaintCommand implements CommandHandler {
 		case "woman":
 			manager.paintWoman();
 			return SUCCESS;
+		case "manreleased":
+			paintStage(manager.painters.manReleasedPainter, stage);
+			return SUCCESS;
 		}
 
 		return usage();
 	}
 
+	private void paintStage(Painter animation, int stage) {
+		animation.stage = stage;
+		manager.paint(animation);
+	}
+
 	private CommandResult usage() {
-		return new InformationCommandResult("Paint something. Syntax: paint <gallows|man|woman>");
+		return new InformationCommandResult("Paint something. Syntax: paint <gallows|man|woman|manreleased> [number]");
 	}
 
 	@Override
